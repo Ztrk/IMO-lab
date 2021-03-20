@@ -6,12 +6,12 @@ from solution import Solution
 from read_data import read_data
 
 class Candidate(NamedTuple):
-    length_diff: int
+    value: int
     vertex: int
     cycle: int
     insert_position: int
 
-class CycleHeuristic(Algorithm):
+class CycleHeuristicRegret(Algorithm):
 
     def run(self, instance: List[List[int]], starting_vertex: int = None) -> Solution:
         n = len(instance)
@@ -21,24 +21,42 @@ class CycleHeuristic(Algorithm):
         vertices.remove(cycles[0][0])
         vertices.remove(cycles[1][0])
 
+        cycles[0].append(self.get_closest(cycles[0][0], vertices, instance))
+        vertices.remove(cycles[0][1])
+
+        cycles[1].append(self.get_closest(cycles[1][0], vertices, instance))
+        vertices.remove(cycles[1][1])
+
         while len(vertices) > 0:
-            candidate = Candidate(1e9, -1, -1, -1)
+            best_regret = Candidate(-1e9, -1, -1, -1)
 
             for v in vertices:
+                candidate1 = Candidate(1e9, -1, -1, -1)
+                candidate2 = Candidate(1e9, -1, -1, -1)
+
                 for cycle_ind, cycle in enumerate(cycles):
                     cycle_len = len(cycle)
-                    if cycle_len >= max_len:
+                    if cycle_len > len(cycles[1 - cycle_ind]):
                         continue
 
                     for j in range(cycle_len):
                         v1 = cycle[j]
                         v2 = cycle[(j + 1) % cycle_len]
                         length_diff = instance[v1][v] + instance[v][v2] - instance[v1][v2]
-                        if length_diff < candidate.length_diff:
-                            candidate = Candidate(length_diff, v, cycle_ind, j)
+                        if length_diff < candidate2.value:
+                            candidate2 = Candidate(length_diff, v, cycle_ind, j)
+                            if candidate2.value < candidate1.value:
+                                candidate1, candidate2 = candidate2, candidate1
+                
+                regret = candidate2.value - candidate1.value
+                if regret > best_regret.value:
+                    best_regret = Candidate(regret, 
+                        candidate1.vertex,
+                        candidate1.cycle,
+                        candidate1.insert_position)
             
-            vertices.remove(candidate.vertex)
-            cycles[candidate.cycle].insert(candidate.insert_position + 1, candidate.vertex)
+            vertices.remove(best_regret.vertex)
+            cycles[best_regret.cycle].insert(best_regret.insert_position + 1, best_regret.vertex)
 
         return Solution(cycles, instance)
 
@@ -53,7 +71,7 @@ class CycleHeuristic(Algorithm):
                 v2 = v
         # v2 = random.randint(0, n - 1)
         # while v2 == v1:
-            # v2 = random.randint(0, n - 1)
+        #     v2 = random.randint(0, n - 1)
         return ([v1], [v2])
 
     def get_closest(self, v: int, vertices: Iterable[int], distance: List[List[int]]):
@@ -68,7 +86,7 @@ class CycleHeuristic(Algorithm):
 
 def run_instance(filepath, runs):
     data1 = read_data(filepath)
-    alg = CycleHeuristic()
+    alg = CycleHeuristicRegret()
     solution_lengths = []
     for i in range(runs):
         solution = alg.run(data1, i)
