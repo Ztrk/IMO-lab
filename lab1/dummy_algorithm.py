@@ -3,7 +3,7 @@ from typing import List
 from solution import Solution
 
 class DummyAlgorithm(Algorithm):
-    def run(self, instance: List[List[int]]) -> Solution:
+    def run(self, instance: List[List[int]], start_num: int) -> Solution:
         n = len(instance)
         half = int((n - 1)/2)
         cycle1 = [i for i in range(half + 1)]

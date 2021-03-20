@@ -4,5 +4,5 @@ from solution import Solution
 
 class Algorithm(ABC):
     @abstractmethod
-    def run(self, instance: List[List[int]]) -> Solution:
+    def run(self, instance: List[List[int]], start_num: int) -> Solution:
         pass

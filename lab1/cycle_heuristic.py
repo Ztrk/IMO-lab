@@ -12,7 +12,6 @@ class Candidate(NamedTuple):
     insert_position: int
 
 class CycleHeuristic(Algorithm):
-
     def run(self, instance: List[List[int]], starting_vertex: int = None) -> Solution:
         n = len(instance)
         max_len = (n + 1)//2
@@ -41,7 +40,6 @@ class CycleHeuristic(Algorithm):
             cycles[candidate.cycle].insert(candidate.insert_position + 1, candidate.vertex)
 
         return Solution(cycles, instance)
-
 
     def starting_solution(self, starting_vertex: int, n: int, instance: List[List[int]]) -> Tuple[List[int], List[int]]:
         v1 = starting_vertex
