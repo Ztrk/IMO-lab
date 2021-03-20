@@ -21,3 +21,18 @@ def read_data(filepath: str) -> List[List[int]]:
                 index, x, y = line.split()
                 node_coordinates.append((int(x), int(y)))
     return to_distance_matrix(node_coordinates)
+
+def read_data_visualization(filepath: str) -> List[List[int]]:
+    with open(filepath) as file:
+        node_coordinates: List[Tuple[int, int]] = []
+        in_node_coord_section: bool = False
+        for line in file:
+            if line == 'NODE_COORD_SECTION\n':
+                in_node_coord_section = True
+            elif line == 'EOF\n':
+                in_node_coord_section = False
+            elif in_node_coord_section:
+                index, x, y = line.split()
+                node_coordinates.append((int(x), int(y)))
+    return node_coordinates
+

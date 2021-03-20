@@ -4,10 +4,10 @@ from algorithm import Algorithm
 from solution import Solution
 
 class CycleHeuristic(Algorithm):
-    def run(self, instance: List[List[int]]) -> Solution:
+    def run(self, instance: List[List[int]], start_num: int) -> Solution:
         n = len(instance)
         max_len = (n + 1)//2
-        cycles: Tuple[List[int], List[int]] = self.starting_solution(n)
+        cycles: Tuple[List[int], List[int]] = self.starting_solution(n) #self.starting_solution(instance,start_num)
         vertices: Set[int] = set(range(n))
         vertices.remove(cycles[0][0])
         vertices.remove(cycles[1][0])
@@ -45,3 +45,6 @@ class CycleHeuristic(Algorithm):
 
     def starting_solution(self, n: int) -> Tuple[List[int], List[int]]:
         return ([0], [1])
+
+    #def starting_solution(self, instance: List[List[int]], start_num: int) -> Tuple[List[int], List[int]]:
+        #return [start_num], [int(instance[start_num].index(max(instance[start_num])))]
