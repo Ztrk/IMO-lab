@@ -49,8 +49,9 @@ class CycleHeuristicRegret(Algorithm):
                                 candidate1, candidate2 = candidate2, candidate1
                 
                 regret = candidate2.value - candidate1.value
-                if regret > best_regret.value:
-                    best_regret = Candidate(regret, 
+                value = 1.8 * regret - candidate1.value
+                if value > best_regret.value:
+                    best_regret = Candidate(value, 
                         candidate1.vertex,
                         candidate1.cycle,
                         candidate1.insert_position)
