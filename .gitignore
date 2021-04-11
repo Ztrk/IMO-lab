@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# pyling config file
+.pylintrc
+
+# VSCode settings
+.vscode/
