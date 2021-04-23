@@ -17,10 +17,10 @@ class RandomWalk(Algorithm):
         self.neighborhood = neighborhood
 
     def run(self, instance: List[List[int]], start_num: int) -> Solution:
-        time_limit = 0.14
+        time_limit = 1.3
         start_time = time()
 
-        best = self.starting_solution().run(instance, start_num)
+        best = self.starting_solution.run(instance, start_num)
         current = best
         while time() - start_time < time_limit:
             current = next(self.neighborhood(current, instance))

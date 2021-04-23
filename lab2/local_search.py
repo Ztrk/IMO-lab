@@ -19,7 +19,7 @@ class LocalSearch(Algorithm):
         self.neighborhood = neighborhood
 
     def run(self, instance: List[List[int]], start_num: int = None) -> Solution:
-        best = self.starting_solution().run(instance, start_num)
+        best = self.starting_solution.run(instance, start_num)
         improved = True
         while improved:
             improved = False
