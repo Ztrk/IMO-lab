@@ -38,8 +38,8 @@ def visualize(cycles, coordinates, lengths, total_length, algorithm, instance):
         [points[i][1] for i in range(len(points))],
     )
 
-    draw_cycle(0, 49, points, ax)
-    draw_cycle(50, 99, points, ax)
+    draw_cycle(0, 99, points, ax)
+    draw_cycle(100, 199, points, ax)
 
     textstr = (
         "Całkowita długość cyklu 1: "
