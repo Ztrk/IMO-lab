@@ -9,7 +9,8 @@ from lab2.random_algorithm import RandomAlgorithm
 from lab2.random_walk import RandomWalk
 from lab3.local_search_LM import LocalSearchLM
 from lab3.local_search_CM import LocalSearchCM
-#from lab1.local_search_improvement import LocalSearchLM, LocalSearchCM
+
+# from lab1.local_search_improvement import LocalSearchLM, LocalSearchCM
 from algorithm import Algorithm
 from solution import Solution
 from read_data import read_data, read_data_visualization
@@ -27,7 +28,7 @@ def experiment(algorithms: List[Algorithm], algorithm_names: List[str]):
             times = []
 
             best_result = Solution(([], []), lengths=([1e9, 1e9]))
-            for i in range(0, 2): #100
+            for i in range(0, 2):  # 100
                 start_time = time()
                 result = algorithm.run(data, i)
                 if best_result.total_length > result.total_length:
@@ -94,14 +95,24 @@ def lab2_random_walk():
 
 def lab3():
     experiment(
-        [#CycleHeuristicRegret(),
-         #LocalSearch(False, RandomAlgorithm(), edge_swap_neighborhood),
-         LocalSearchCM(RandomAlgorithm()),
-         LocalSearchLM(RandomAlgorithm())],
-        [#"Regret heuristic",
-         #"Przeszukiwanie lokalne - strome, zamiana krawędzi, rozwiązanie początkowe losowe",
-         "Przeszukiwanie lokalne - ruchy kandydackie",
-         "Przeszukiwanie lokalne - wykorzystanie ocen ruchów z poprzednich iteracji"]
+        [  # CycleHeuristicRegret(),
+            # LocalSearch(False, RandomAlgorithm(), edge_swap_neighborhood),
+            LocalSearchCM(RandomAlgorithm()),
+            LocalSearchLM(RandomAlgorithm()),
+        ],
+        [  # "Regret heuristic",
+            # "Przeszukiwanie lokalne - strome, zamiana krawędzi, rozwiązanie początkowe losowe",
+            "Przeszukiwanie lokalne - ruchy kandydackie",
+            "Przeszukiwanie lokalne - wykorzystanie ocen ruchów z poprzednich iteracji",
+        ],
     )
-#lab2_random_walk()
-lab3()
+
+
+def lab4():
+    experiment(
+        [LocalSearch(False, CycleHeuristicRegret(), edge_swap_neighborhood)],
+        ["Przeszukiwanie lokalne"],
+    )
+
+
+lab4()

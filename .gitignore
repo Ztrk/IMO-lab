@@ -133,3 +133,14 @@ dmypy.json
 
 # VSCode settings
 .vscode/
+
+# Project specific
+plots/
+results.txt
+test.py
+
+# Plots and images
+*.png
+*.jpg
+*.pdf
+*.svg
