@@ -9,6 +9,7 @@ from lab2.random_algorithm import RandomAlgorithm
 from lab2.random_walk import RandomWalk
 from lab3.local_search_LM import LocalSearchLM
 from lab3.local_search_CM import LocalSearchCM
+from lab4.ils2 import ILS2
 
 # from lab1.local_search_improvement import LocalSearchLM, LocalSearchCM
 from algorithm import Algorithm
@@ -110,8 +111,21 @@ def lab3():
 
 def lab4():
     experiment(
-        [LocalSearch(False, CycleHeuristicRegret(), edge_swap_neighborhood)],
-        ["Przeszukiwanie lokalne"],
+        [
+            ILS2(
+                time_limit=60,
+                destroy_fraction=0.2,
+                no_local_search=False,
+                starting_solution=CycleHeuristicRegret(),
+            ),
+            ILS2(
+                time_limit=60,
+                destroy_fraction=0.2,
+                no_local_search=True,
+                starting_solution=CycleHeuristicRegret(),
+            )
+        ],
+        ["ILS2", "ILS2A"],
     )
 
 
