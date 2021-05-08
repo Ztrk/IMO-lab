@@ -10,8 +10,9 @@ from lab2.random_walk import RandomWalk
 from lab3.local_search_LM import LocalSearchLM
 from lab3.local_search_CM import LocalSearchCM
 from lab4.ils2 import ILS2
-
-# from lab1.local_search_improvement import LocalSearchLM, LocalSearchCM
+from lab4.ils1 import ILS1
+from lab4.msls import MultipleStartLocalSearch
+from lab4.randomized_cycle_heuristic import RandomizedCycleHeuristic
 from algorithm import Algorithm
 from solution import Solution
 from read_data import read_data, read_data_visualization
@@ -29,7 +30,7 @@ def experiment(algorithms: List[Algorithm], algorithm_names: List[str]):
             times = []
 
             best_result = Solution(([], []), lengths=([1e9, 1e9]))
-            for i in range(0, 2):  # 100
+            for i in range(0, 10):  # 100
                 start_time = time()
                 result = algorithm.run(data, i)
                 if best_result.total_length > result.total_length:
@@ -110,22 +111,28 @@ def lab3():
 
 
 def lab4():
+    """
     experiment(
         [
             ILS2(
-                time_limit=60,
+                time_limit=310,
                 destroy_fraction=0.2,
                 no_local_search=False,
-                starting_solution=CycleHeuristicRegret(),
+                starting_solution=RandomizedCycleHeuristic(),
             ),
             ILS2(
-                time_limit=60,
+                time_limit=310,
                 destroy_fraction=0.2,
                 no_local_search=True,
-                starting_solution=CycleHeuristicRegret(),
+                starting_solution=RandomizedCycleHeuristic(),
             )
         ],
         ["ILS2", "ILS2A"],
+    )
+    """
+    experiment(
+        #[MultipleStartLocalSearch(LocalSearch(False, RandomizedCycleHeuristic(), edge_swap_neighborhood))], ["Multiple start local search"]
+        [ILS1(LocalSearch(False, RandomizedCycleHeuristic(), edge_swap_neighborhood), 310)], ["ILS1"]
     )
 
 
