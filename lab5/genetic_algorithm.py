@@ -3,6 +3,7 @@ from typing import List, Set, Tuple, NamedTuple
 from algorithm import Algorithm
 from solution import Solution
 from lab2.neighborhood import edge_swap_neighborhood
+import random
 
 
 class GeneticAlgorithm(Algorithm):
@@ -22,7 +23,7 @@ class GeneticAlgorithm(Algorithm):
         self.starting_solution = starting_solution
         self.time_limit = time_limit
         self.use_local_search = not no_local_search
-        self.population = set()
+        self.population = []#set()
         self.population_size = population_size
 
     def run(self, instance: List[List[int]], start_num: int = None) -> Solution:
@@ -30,16 +31,33 @@ class GeneticAlgorithm(Algorithm):
 
         # Initialize population
         for _i in range(self.population_size):
-            self.population.add(self.starting_solution.run(instance, None))
+            #ADD
+            self.population.append(self.starting_solution.run(instance, _i))
+
 
         while time() - start_time < self.time_limit:
-            solution = self.crossover(self.population[0], self.population[1], instance)
+            self.population = sorted(self.population, key=lambda e: e.total_length)
+            parent_A = random.randint(0, 19)
+            parent_B = random.randint(0, 19)
+            while parent_A == parent_B:
+                parent_B = random.randint(0, 19)
+            solution = self.crossover(self.population[parent_A], self.population[parent_B], instance)
 
-            if solution.total_length < self.population[-1].total_length:
+            if solution.total_length < self.population[-1].total_length and self.different(solution): #I WYSTARCZAJĄCO RÓŻNE
                 self.population[-1] = solution
                 # print(f"{time() - start_time:.3f} Improvement", best.total_length)
 
+        self.population = sorted(self.population, key=lambda e: e.total_length)
+
         return self.population[0]
+
+    def different(self, solution):
+        for e in self.population:
+            if e.total_length == solution.total_length:
+                return False
+            else:
+                continue
+        return True
 
     def crossover(
         self, parent1: Solution, parent2: Solution, distances: List[List[int]]

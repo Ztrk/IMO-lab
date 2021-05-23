@@ -13,6 +13,7 @@ from lab4.ils2 import ILS2
 from lab4.ils1 import ILS1
 from lab4.msls import MultipleStartLocalSearch
 from lab4.randomized_cycle_heuristic import RandomizedCycleHeuristic
+from lab5.genetic_algorithm import GeneticAlgorithm
 from algorithm import Algorithm
 from solution import Solution
 from read_data import read_data, read_data_visualization
@@ -20,7 +21,7 @@ from vizualization import visualize
 
 
 def experiment(algorithms: List[Algorithm], algorithm_names: List[str]):
-    for file in ["data/kroA200.tsp", "data/kroB200.tsp"]:
+    for file in ["data/kroB200.tsp"]: #"data/kroA200.tsp",
         data = read_data(file)
         data_vis = read_data_visualization(file)
         print("Instancja: {}".format(file))
@@ -136,4 +137,16 @@ def lab4():
     )
 
 
-lab4()
+def lab5():
+    experiment(
+        [GeneticAlgorithm(310, LocalSearch(False, RandomizedCycleHeuristic(), edge_swap_neighborhood), False),
+            GeneticAlgorithm(310, LocalSearch(False, RandomizedCycleHeuristic(), edge_swap_neighborhood), True)
+        ],
+        [
+            "HAE z LP",
+            "HAE bez LP",
+        ],
+    )
+
+
+lab5()
