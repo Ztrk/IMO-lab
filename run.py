@@ -14,6 +14,7 @@ from lab4.ils1 import ILS1
 from lab4.msls import MultipleStartLocalSearch
 from lab4.randomized_cycle_heuristic import RandomizedCycleHeuristic
 from lab5.genetic_algorithm import GeneticAlgorithm
+from lab6.genetic_algorithm import GeneticAlgorithm as ImprovedGeneticAlgorithm
 from algorithm import Algorithm
 from solution import Solution
 from read_data import read_data, read_data_visualization
@@ -148,5 +149,25 @@ def lab5():
         ],
     )
 
+def lab6():
+    experiment(
+        [
+            ImprovedGeneticAlgorithm(
+                310,
+                LocalSearch(False, RandomizedCycleHeuristic(), edge_swap_neighborhood),
+                no_local_search=False
+            ),
+            ImprovedGeneticAlgorithm(
+                310,
+                LocalSearch(False, RandomizedCycleHeuristic(), edge_swap_neighborhood),
+                no_local_search=True
+            )
+        ],
+        [
+            "HAE z LP",
+            "HAE bez LP",
+        ],
+    )
 
-lab5()
+
+lab6()
