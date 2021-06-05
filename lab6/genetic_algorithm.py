@@ -30,6 +30,7 @@ class GeneticAlgorithm(Algorithm):
         start_time = time()
 
         # Initialize population
+        self.population = []
         for _i in range(self.population_size):
             # ADD
             self.population.append(self.starting_solution.run(instance, _i))
